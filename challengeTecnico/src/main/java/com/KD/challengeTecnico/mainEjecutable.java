@@ -33,7 +33,7 @@ public class mainEjecutable {
 	private static ArrayList<Operacion> operaciones;
 	
 	// Clase principal iniciadora del programa ejemplo aprenderaprogramar.com
-	public static void main(String [] args) {
+	public static void mainEjecutable(String [] args) {
 	   //Aquí las instrucciones de inicio y control del programa
 	   System.out.println ("Empezamos la ejecución del programa");
 	   Boolean ejecutando = true;

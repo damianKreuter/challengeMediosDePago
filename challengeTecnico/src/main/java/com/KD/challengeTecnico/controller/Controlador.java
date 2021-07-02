@@ -19,7 +19,7 @@ import com.KD.challengeTecnico.excepciones.ExcepcionConversionStringANumerica;
 import com.KD.challengeTecnico.excepciones.ExcepcionNumeroNoPerteneceAConjunto;
 import com.google.gson.Gson;
 
-@Controller
+@RestController
 public class Controlador {
 
 	@Autowired
