@@ -1,6 +1,8 @@
-package com.KD.challengeTecnico.controller;
+package com.KD.challengeTecnico.componentesSpringboot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.lang.reflect.Type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.KD.challengeTecnico.clases.operacion.Operacion;
 import com.KD.challengeTecnico.clases.operacion.TasaOperacional;
+import com.KD.challengeTecnico.clases.tarjeta.Tarjeta;
 import com.KD.challengeTecnico.clases.tarjeta.marca.Marca;
 import com.KD.challengeTecnico.excepciones.ExcepcionConversionStringANumerica;
 import com.KD.challengeTecnico.excepciones.ExcepcionNumeroNoPerteneceAConjunto;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @RestController
 public class Controlador {
@@ -39,6 +43,44 @@ public class Controlador {
 			return new ResponseEntity<String>(respuesta1, HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
+			respuesta1 = e.getMessage();
+			return new ResponseEntity<String>(respuesta1, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping(method=RequestMethod.PUT, value="/operacion")
+	public ResponseEntity<String> crearOperacion(@RequestBody String payload) {
+		System.out.println(payload);
+		String respuesta1="";
+		try {
+			Type type = new TypeToken<Operacion>(){}.getType();
+			Operacion info =  new Gson().fromJson(payload, type);
+			System.out.println(info.toString());
+			if(info.esValida()) {
+				servicio.crearOperacion(info);
+				return new ResponseEntity<String>(elementsToJson("Se ha agregado la nueva operación"), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<String>(elementsToJson("El monto de la operacion no puede superar las 1000 unidades o ser menor a 0"), HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			respuesta1 = e.getMessage();
+			return new ResponseEntity<String>(respuesta1, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping(method=RequestMethod.PUT, value="/tarjeta")
+	public ResponseEntity<String> crearTarjeta(@RequestBody String payload) {
+		System.out.println(payload);
+		String respuesta1="";
+		try {
+			Type type = new TypeToken<Tarjeta>(){}.getType();
+			Tarjeta info =  new Gson().fromJson(payload, type);
+			System.out.println(info.toString());
+			if(info.esValido(Calendar.getInstance())) {
+				servicio.crearTarjeta(info);
+				return new ResponseEntity<String>(elementsToJson("Se ha agregado la nueva operación"), HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<String>(elementsToJson("La tarjeta está pasada de la fecha de vencimiento"), HttpStatus.CONFLICT);
+		} catch (Exception e) {
 			respuesta1 = e.getMessage();
 			return new ResponseEntity<String>(respuesta1, HttpStatus.NOT_FOUND);
 		}

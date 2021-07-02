@@ -34,6 +34,24 @@ public class Tarjeta {
 		return hashCode()==otraTarjeta.hashCode();
 	}
 
+	
+	
+	public FechaVencimiento getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(FechaVencimiento fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public void setNroTarjeta(long nroTarjeta) {
+		this.nroTarjeta = nroTarjeta;
+	}
+
+	public void setMarcaTarjeta(Marca marcaTarjeta) {
+		this.marcaTarjeta = marcaTarjeta;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -84,6 +102,12 @@ public class Tarjeta {
 	
 	public Boolean esValido(Calendar fecha) {
 		return fechaVencimiento.puedeOperar(fecha);
+	}
+	
+	public Boolean esValido(FechaVencimiento fecha) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(fecha.getAnio(), fecha.getMes().ordinal(), 1);
+		return fechaVencimiento.puedeOperar(cal);
 	}
 	
 	public Boolean esValidoParaMontoYFecha(double monto, Calendar fechaOperacion) {

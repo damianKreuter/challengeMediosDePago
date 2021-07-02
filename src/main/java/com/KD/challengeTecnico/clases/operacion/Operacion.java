@@ -67,7 +67,7 @@ public class Operacion {
 	}
 	
 	public Boolean esValida() {
-		return montoPagado<=1000;
+		return montoPagado<=1000 || montoPagado>0;
 	}
 
 }
