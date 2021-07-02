@@ -5,9 +5,7 @@ Challenge TÃ©cnico de medios de pago
 
 El proyecto tiene tanto un ejecutable como también una APIREST deployada en heroku, la cual esta sería su URL con la cual seria la base para poder empezar a realizar comunicaciones y pedidos con la API:
 
-* https://medio-de-pago-2.herokuapp.com
-
-
+* https://medio-de-pago-2.herokuapp.com/
 
 # EJECUTABLE
 
