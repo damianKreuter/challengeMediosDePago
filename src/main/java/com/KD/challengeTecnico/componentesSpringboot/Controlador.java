@@ -31,7 +31,6 @@ public class Controlador {
 	@Autowired
 	private Servicio servicio;
 	
-	
 	@RequestMapping(method=RequestMethod.GET, value="/operacion/tasaInteres/{id_operacion}")
 	public ResponseEntity<String> consultarTasaInteres(@PathVariable String id_operacion) {
 //		System.out.println(payload);
@@ -50,7 +49,7 @@ public class Controlador {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/operacion")
+	@RequestMapping(method=RequestMethod.POST, value="/operacion")
 	public ResponseEntity<String> crearOperacion(@RequestBody String payload) {
 		System.out.println(payload);
 		String respuesta1="";
@@ -69,7 +68,7 @@ public class Controlador {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/tarjeta")
+	@RequestMapping(method=RequestMethod.POST, value="/tarjeta")
 	public ResponseEntity<String> crearTarjeta(@RequestBody String payload) {
 		System.out.println(payload);
 		String respuesta1="";
