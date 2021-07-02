@@ -1,0 +1,9 @@
+EJECUTABLE de la demo
+
+Para ejecutarlo se debe hacerlo
+
+Abrir CONSOLA DE COMANDOS, sea Git bash, Powershell o CMD
+
+Ir al path del ejecutable
+
+java -jar ejecutableDemo.jar
