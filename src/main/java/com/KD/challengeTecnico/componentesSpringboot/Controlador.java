@@ -19,7 +19,9 @@ import com.KD.challengeTecnico.clases.operacion.TasaOperacional;
 import com.KD.challengeTecnico.clases.tarjeta.Tarjeta;
 import com.KD.challengeTecnico.clases.tarjeta.marca.Marca;
 import com.KD.challengeTecnico.excepciones.ExcepcionConversionStringANumerica;
+import com.KD.challengeTecnico.excepciones.ExcepcionNumeroInvalidosParaOperacion;
 import com.KD.challengeTecnico.excepciones.ExcepcionNumeroNoPerteneceAConjunto;
+import com.KD.challengeTecnico.excepciones.ExcepcionTarjetaVencida;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,14 +58,14 @@ public class Controlador {
 			Type type = new TypeToken<Operacion>(){}.getType();
 			Operacion info =  new Gson().fromJson(payload, type);
 			System.out.println(info.toString());
-			if(info.esValida()) {
-				servicio.crearOperacion(info);
-				return new ResponseEntity<String>(elementsToJson("Se ha agregado la nueva operación"), HttpStatus.ACCEPTED);
-			}
-			return new ResponseEntity<String>(elementsToJson("El monto de la operacion no puede superar las 1000 unidades o ser menor a 0"), HttpStatus.CONFLICT);
-		} catch (Exception e) {
+			servicio.crearOperacion(info);
+			return new ResponseEntity<String>(elementsToJson("Se ha agregado la nueva operación"), HttpStatus.ACCEPTED);
+		}	catch(ExcepcionNumeroInvalidosParaOperacion e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+		catch (Exception e) {
 			respuesta1 = e.getMessage();
-			return new ResponseEntity<String>(respuesta1, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(respuesta1, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
@@ -74,15 +76,14 @@ public class Controlador {
 		try {
 			Type type = new TypeToken<Tarjeta>(){}.getType();
 			Tarjeta info =  new Gson().fromJson(payload, type);
-			System.out.println(info.toString());
-			if(info.esValido(Calendar.getInstance())) {
-				servicio.crearTarjeta(info);
-				return new ResponseEntity<String>(elementsToJson("Se ha agregado la nueva operación"), HttpStatus.ACCEPTED);
-			}
-			return new ResponseEntity<String>(elementsToJson("La tarjeta está pasada de la fecha de vencimiento"), HttpStatus.CONFLICT);
-		} catch (Exception e) {
+			servicio.crearTarjeta(info);
+			return new ResponseEntity<String>(elementsToJson("Se ha agregado la nueva operación"), HttpStatus.ACCEPTED);
+		} catch (ExcepcionTarjetaVencida e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		} 
+		catch (Exception e) {
 			respuesta1 = e.getMessage();
-			return new ResponseEntity<String>(respuesta1, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(respuesta1, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
